@@ -22,6 +22,35 @@ public class TreeIO {
         }
     }
 
+    public static void saveHTML(DecisionTreeNode tree) {
+        try (PrintWriter writer = new PrintWriter("index.html", "UTF-8")) {
+            saveTreeHTML(tree, writer);
+        } catch (IOException ioe) {
+            throw new RuntimeException("save error", ioe);
+        }
+    }
+
+    /**
+     * Should be a Preorder tree DFS
+     */ 
+    private static void saveTreeHTML(DecisionTreeNode tree, PrintWriter writer) {
+        if (tree == null) {
+            writer.print("null");
+            return;
+        }
+        // writer.print("<html><head><title>Knowledge</title></head><body>");
+        writer.print("<ul>");
+        writer.print(tree.text.replace('\t', ' '));
+        writer.print("<li>");
+        saveTreeHTML(tree.yes, writer);
+        writer.print("</li>");
+        writer.print("<li>");
+        saveTreeHTML(tree.no, writer);
+        writer.print("</li>");
+        writer.print("</ul>");
+        // writer.print("</body>/html>");
+    }
+
     /**
      * Load a {@link DecisionTreeNode} from a file: fileName.
      * The opposite of {@link #save}.
