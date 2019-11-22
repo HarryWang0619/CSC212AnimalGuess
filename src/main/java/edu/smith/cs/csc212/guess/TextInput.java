@@ -100,14 +100,78 @@ public class TextInput {
 	public boolean confirm(String prompt) {
 		while (true) {
 			List<String> response = this.getUserWords(prompt + " (y/n): ");
-			if (response.contains("yes") || response.contains("y")) {
+			if (response.contains("yes") || response.contains("y") || response.contains("1")) {
 				return true;
-			} else if (response.contains("no") || response.contains("n")) {
+			} else if (response.contains("no") || response.contains("n") || response.contains("0")) {
 				return false;
 			}
 			System.err.println("Couldn't understand: " + response + " try one of [yes, no]");
 		}
 	}
+
+
+	/**
+	 * 
+	 */
+	public String getNotEmptyInput(String question) {
+		while (true) {
+			System.out.print(question);
+			System.out.print(" ");
+			System.out.flush();
+			String resp;
+			try {
+				resp = input.readLine();
+			} catch (IOException e) {
+				// Turn user error into a crash.
+				throw new RuntimeException("User Input Error", e);
+			}
+
+			// Make sure they typed something.
+			String input = resp;
+			if (!input.isEmpty()) {
+				return input;
+			}
+			System.out.println("Yoo that's a empty input! Do a proper input.");
+		}
+	}
+
+	/**
+     * Not avenger.
+     */
+
+	/**
+	 * I .. AM ... IRON MAN!!!!!
+	 * #snap
+	 * all code get buggy.
+	 */
+	public boolean endGame(String prompt) {
+        while (true) {
+			List<String> response;
+			if (!prompt.contains("?")) {
+				response = this.getUserWords("Is it a " + prompt + "?" + " (y/n): ");
+			} else {
+				response = this.getUserWords(prompt + " (y/n): ");
+			}
+			if (response.contains("yes") || response.contains("y") || response.contains("1")) {
+				System.out.println("I win!");
+				return false; //no need to update
+			} else if (response.contains("no") || response.contains("n") || response.contains("0")) {
+				System.out.println("You win!");
+				System.out.println("...");
+				//this.update(prompt);
+				return true; // update true
+			}
+			System.err.println("Couldn't understand: " + response + " try one of [yes, no]");
+		}
+    }
+
+	// public void update(String prompt) {
+	// 	String response0 = this.getNotEmptyInput("What animal were you thinking of?\n");
+	// 	System.out.println(response0);
+	// 	String response1 = this.getNotEmptyInput("What is a question that would be YES for a " + prompt + " but not a " + response0 + "?\n");
+	// 	System.out.println(response1);
+
+	// }
 
 	/**
 	 * Use command-line arguments to set up a TextInput.

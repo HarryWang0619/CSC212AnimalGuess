@@ -22,12 +22,13 @@ public class GuessingMain {
         while(true) {
             System.out.println("To play, first think of an animal.");
 
-            // TODO: Maybe something like this?
+            // TODOED: Maybe something like this?
+            knowledge.play(knowledge, true);
             // knowledge.play(); <- leading toward recursive solution.
             // playGame(knowledge) <- 
 
-            // TODO: remove this.
-            System.out.println("...I guess there's no game here yet...");
+            // TODOED: remove this.
+            // System.out.println("...I guess there's no game here yet...");
 
             if (input.confirm("Do you want to play again?")) {
                 continue;

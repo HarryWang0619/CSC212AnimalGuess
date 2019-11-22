@@ -1,4 +1,5 @@
 package edu.smith.cs.csc212.guess;
+import java.util.List;
 
 /**
  * A class to store the knowledge learned by the animal guessing-game.
@@ -53,4 +54,46 @@ public class DecisionTreeNode {
     public String toString() {
         return "(" + text + "\t" + this.yes + "\t" + this.no + ")";
     }
+
+    /**
+     * Is Yes or No empty?
+     */
+    public boolean haveChildren() {
+        return (!(this.yes == null) && !(this.no == null));
+    }
+
+    /**
+     * play!
+     */
+    public void play(DecisionTreeNode now, boolean choice) {
+        TextInput input = new TextInput();
+        if (this.haveChildren()) {
+            if (input.confirm(this.text)) {
+                this.yes.play(this, true);
+            } else {
+                this.no.play(this, false);
+            }
+        } else {
+            if (input.endGame(this.text)) {
+                this.update(this.text, now, choice);
+            }
+        }  
+    }
+
+    public void update(String prompt, DecisionTreeNode pre, boolean choice) {
+        TextInput input = new TextInput();
+		String response0 = input.getNotEmptyInput("What animal were you thinking of?\n");
+		System.out.println(response0);
+		String response1 = input.getNotEmptyInput("What is a question that would be YES for a " + prompt + " but not a " + response0 + "?\n");
+        System.out.println(response1);
+        // System.out.println(pre.text);
+        // System.out.println(pre.yes);
+        // System.out.println(pre.yes.text);
+        if (choice) {
+            pre.yes = new DecisionTreeNode(response1, pre.yes, new DecisionTreeNode(response0));
+        } else {
+            pre.no = new DecisionTreeNode(response1, pre.no, new DecisionTreeNode(response0));
+        }
+        // pre.yes = new DecisionTreeNode(response1, pre.yes, new DecisionTreeNode(response0));
+	}
 }
